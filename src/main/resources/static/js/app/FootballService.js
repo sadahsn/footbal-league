@@ -1,0 +1,20 @@
+'use strict'
+
+angular.module('football.services', []).factory('FootballService',
+		[ "$http", "CONSTANTS", function($http, CONSTANTS) {
+			var service = {};
+			service.getLeaguePosition = function(leagueId,teamId,countryId) {
+				var url = CONSTANTS.getLeaguePosition +'?league_id='+leagueId+'&team_id='+teamId+'&country_id='+countryId;
+				return $http.get(url);
+			}
+			
+			service.getAllCountries = function() {
+				return $http.get(CONSTANTS.getAllCountries);
+			}
+			
+			service.getAllCountries = function() {
+				return $http.get(CONSTANTS.getAllCountries);
+			}
+			
+			return service;
+		} ]);

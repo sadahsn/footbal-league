@@ -1,0 +1,18 @@
+pipeline {
+    agent any
+    stages {
+
+        stage('Build') {
+            steps {
+                sh '''cd football-league
+                      mvn clean install'''
+            }
+        }
+        stage('Jenkins FTP Publish') {
+           steps {
+               
+           }
+        }
+
+    }
+}
