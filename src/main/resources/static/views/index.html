@@ -1,35 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="ISO-8859-1">
-    <title>Main Page</title>
+<meta charset="ISO-8859-1">
+<title>Football League</title>
 </head>
 <body ng-app="Football League">
-<hr/>
-<div class="container" ng-controller="FootballController">
-    <div class="row">
-        <label>Country</label> <input type="text" ng-model="userDto.userName" class="input-sm spacing"/>
-        <label>League</label> <input type="text" ng-model="userDto.userName" class="input-sm spacing"/>
-        <label>Team</label> <input type="text" ng-model="userDto.userName" class="input-sm spacing"/>
-        <button ng-click="findPosition()" class="btn btn-sm btn-info">Find League Position</button>
-    </div>
-    <hr/>
-    <div class="row">
-    </div>
-    <hr/>
-    <div class="row" ng-repeat="user in allUsers">
-        <div class="">
-            <h3>{{response.data}}</h3>
-            <h3>{{response.message}}</h3>
-        </div>
-    </div>
-</div>
+	<hr />
+	<div class="container" ng-controller="FootballController" >
+	<center ng-init="init(this)"> 
+    </center> 
+		<div fxFlex="row">
+			<label fxFlex="col">Country ID & Name</label>
+			<select fxFlex="col" class="input-sm spacing"
+				ng-model="selectedCountry">
+				<option ng-repeat="c in countries" value="{{c.country_id}}">({{c.country_id}})-{{c.country_name}}</option>
+			</select>
+		</div>
+		<div class="row">
+			<label>League ID & Name</label> <select class="input-sm spacing"
+				ng-model="selectedLeague">
+				<option ng-repeat="l in leagues" value="{{l.league_id}}">({{l.league_id}})-{{l.league_name}}</option>
+			</select>
+		</div>
+		<div class="row">
+			<label>Team ID & Name</label> <select class="input-sm spacing"
+				ng-model="selectedTeam">
+				<option ng-repeat="t in teams" value="{{t.team_id}}">({{t.team_id}})-{{t.team_name}}</option>
+			</select>
+		</div>
+
+		<div class="row">
+			<button ng-click="findPosition()" class="btn btn-sm btn-info">Find
+				League Position</button>
+		</div>
+	</div>
+	<hr />
+	<div class="row"></div>
+	<hr />
+	<div class="row">
+		<div *ngIf="response" class="">
+			<h3>{{response.data}}</h3>
+			<h3>{{response.message}}</h3>
+		</div>
+	</div>
+	</div>
 </body>
 <script src="js/lib/angular.min.js"></script>
 <script src="js/lib/ui-bootstrap-tpls-2.5.0.min.js"></script>
 <script src="js/app/app.js"></script>
-<script src="js/app/UserController.js"></script>
-<script src="js/app/UserService.js"></script>
-<link rel="stylesheet" href="css/lib/bootstrap.min.css"/>
-<link rel="stylesheet" href="css/app/app.css"/>
+<script src="js/app/FootballController.js"></script>
+<script src="js/app/FootballService.js"></script>
+<link rel="stylesheet" href="css/lib/bootstrap.min.css" />
+<link rel="stylesheet" href="css/app/app.css" />
 </html>

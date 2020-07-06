@@ -37,3 +37,15 @@ module.controller("FootballController", [ "$scope", "FootballService",
 				});
 			}
 		} ]);
+
+$scope.init() = function($scope) {
+	FootballService.getAllCountries().then(function(resp) {
+		console.log("works");
+		$scope.countries = resp;
+	}, function(reason) {
+		console.log("error occured");
+	}, function(value) {
+		console.log("no callback");
+	});
+}
+} ]);
