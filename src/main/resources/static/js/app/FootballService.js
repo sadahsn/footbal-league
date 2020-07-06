@@ -8,8 +8,12 @@ angular.module('football.services', []).factory('FootballService',
 				return $http.get(url);
 			}
 			
-			service.getAllCountries = function() {
-				return $http.get(CONSTANTS.getAllCountries);
+			service.getAllLeagues = function() {
+				return $http.get(CONSTANTS.getAllLeagues);
+			}
+			
+			service.getAllTeams = function() {
+				return $http.get(CONSTANTS.getAllTeams);
 			}
 			
 			service.getAllCountries = function() {
