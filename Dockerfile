@@ -1,9 +1,14 @@
-FROM maven:3.5-jdk-8 AS build
-COPY src /usr/src//app/src
-COPY pom.xml /usr/src/app
-RUN mvn -f /usr/src/app/pom.xml clean install package 
+FROM alpine/git as clone
+WORKDIR /app
+RUN git clone https://github.com/sadahsn/footbal-league.git
 
-FROM openjdk:8-jdk-alpine
-COPY --from= build /usr/src/app/target/*.jar /usr/app/app.jar
+FROM maven:3.5-jdk-8-alpine AS build
+WORKDIR /app
+COPY --from=clone /app/footbal-league /app
+RUN mvn install package 
+
+FROM openjdk:8-jre-alpine
+WORKDIR /app
+COPY --from=build /app/target/*.jar /app/app.jar
 EXPOSE 8082
-ENTRYPOINT ["java","-jar","/usr/app/app.jar"]
+ENTRYPOINT ["java","-jar","/app/app.jar"]
