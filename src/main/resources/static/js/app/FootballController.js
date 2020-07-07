@@ -4,12 +4,6 @@ var module = angular.module('football.controllers', []);
 module.controller("FootballController", [ "$scope", "FootballService",
 		function($scope, FootballService) {
 
-			$scope.userDto = {
-				userId : null,
-				userName : null,
-				skillDtos : []
-			};
-			
 			FootballService.getLeaguePosition(148,2611,41).then(function(value) {
 				console.log(value.data);
 			}, function(reason) {
@@ -35,17 +29,18 @@ module.controller("FootballController", [ "$scope", "FootballService",
 				}, function(value) {
 					console.log("no callback");
 				});
+			};
+			
+			$scope.init() = function() {
+				alert(1);
+				FootballService.getAllCountries().then(function(resp) {
+					console.log("works");
+					$scope.countries = resp;
+				}, function(reason) {
+					console.log("error occured");
+				}, function(value) {
+					console.log("no callback");
+				});
 			}
 		} ]);
 
-$scope.init() = function($scope) {
-	FootballService.getAllCountries().then(function(resp) {
-		console.log("works");
-		$scope.countries = resp;
-	}, function(reason) {
-		console.log("error occured");
-	}, function(value) {
-		console.log("no callback");
-	});
-}
-} ]);

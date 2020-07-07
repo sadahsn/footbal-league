@@ -1,55 +1,64 @@
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Football League</title>
-</head>
-<body ng-app="Football League">
-	<hr />
-	<div class="container" ng-controller="FootballController" >
-	<center ng-init="init(this)"> 
-    </center> 
-		<div fxFlex="row">
-			<label fxFlex="col">Country ID & Name</label>
-			<select fxFlex="col" class="input-sm spacing"
-				ng-model="selectedCountry">
-				<option ng-repeat="c in countries" value="{{c.country_id}}">({{c.country_id}})-{{c.country_name}}</option>
-			</select>
-		</div>
-		<div class="row">
-			<label>League ID & Name</label> <select class="input-sm spacing"
-				ng-model="selectedLeague">
-				<option ng-repeat="l in leagues" value="{{l.league_id}}">({{l.league_id}})-{{l.league_name}}</option>
-			</select>
-		</div>
-		<div class="row">
-			<label>Team ID & Name</label> <select class="input-sm spacing"
-				ng-model="selectedTeam">
-				<option ng-repeat="t in teams" value="{{t.team_id}}">({{t.team_id}})-{{t.team_name}}</option>
-			</select>
-		</div>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<body>
 
-		<div class="row">
-			<button ng-click="findPosition()" class="btn btn-sm btn-info">Find
-				League Position</button>
-		</div>
-	</div>
-	<hr />
-	<div class="row"></div>
-	<hr />
-	<div class="row">
-		<div *ngIf="response" class="">
-			<h3>{{response.data}}</h3>
-			<h3>{{response.message}}</h3>
-		</div>
-	</div>
-	</div>
+<div ng-app="myApp" ng-controller="myCtrl" data-ng-init="init()">
+<p>Select a country:</p>
+
+<select ng-model="selectedCountry" ng-change="updateLeagues(selectedCountry)">
+<option ng-repeat="x in countries" value="{{x.country_id}}">({{x.country_id}}) - {{x.country_name}}</option>
+</select>
+
+<p>Select a league:</p>
+
+<select ng-model="selectedLeague" ng-change="updateTeams(selectedLeague)">
+<option ng-repeat="x in leagues" value="{{x.league_id}}">({{x.league_id}}) - {{x.league_name}}</option>
+</select>
+
+<p>Select a Team:</p>
+
+<select ng-model="selectedTeam" ng-change="updatePosition(selectedCountry, selectedLeague, selectedTeam)">
+<option ng-repeat="x in teams" value="{{x.team_key}}">({{x.team_key}}) - {{x.team_name}}</option>
+</select>
+
+<h1>League position: {{position.data}}</h1>
+
+</div>
+
+<script>
+
+var app = angular.module('myApp', []);
+
+app.controller('myCtrl',function($scope,$http) {
+    $scope.init = function(){
+    	 $http.get('/football/countries').then(function(resp){
+    		 $scope.countries = resp.data;
+    	 });
+    };
+    
+    $scope.updateLeagues = function(country_id){
+   	 $http.get('/football/leagues?country_id='+country_id).then(function(resp){
+   		 $scope.leagues = resp.data;
+   	 });
+   };
+   
+   $scope.updateTeams = function(league_id){
+	   	 $http.get('/football/teams?league_id='+league_id).then(function(resp){
+	   		 $scope.teams = resp.data;
+	   	 });
+	   };
+	   
+	   $scope.updatePosition = function(country_id,league_id, team_id){
+		   var url = '/football/league-position?league_id='+league_id+'&team_id='+team_id+'&country_id='+country_id;
+		   $http.get(url).then(function(resp){
+		   		 $scope.position = resp.data;
+		   	 });
+	   };
+});
+
+
+</script>
+
 </body>
-<script src="js/lib/angular.min.js"></script>
-<script src="js/lib/ui-bootstrap-tpls-2.5.0.min.js"></script>
-<script src="js/app/app.js"></script>
-<script src="js/app/FootballController.js"></script>
-<script src="js/app/FootballService.js"></script>
-<link rel="stylesheet" href="css/lib/bootstrap.min.css" />
-<link rel="stylesheet" href="css/app/app.css" />
 </html>
