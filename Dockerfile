@@ -10,5 +10,5 @@ RUN mvn install package
 FROM openjdk:8-jre-alpine
 WORKDIR /app
 COPY --from=build /app/target/*.jar /app/app.jar
-EXPOSE 8082
+EXPOSE 8080
 ENTRYPOINT ["java","-jar","/app/app.jar"]
